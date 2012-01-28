@@ -10,7 +10,7 @@ setup(
     license = "BSD",
     description = "App for making learning courses.",
     long_description = read("README"),
-    url = "https://github.com/bazukas/django-school",
+    url = "https://github.com/fosslabs/django-school",
     author = "Azat Khasanshin, Radik Fattakhov",
     author_email = "azatkhasanshin@gmail.com",
     packages = find_packages("src"),
