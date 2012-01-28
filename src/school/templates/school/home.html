@@ -1,0 +1,27 @@
+{% extends "school/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "School" %} - {% trans "Homepage" %}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>{% trans "What's new" %} <small>{% trans "Here you can see last updates and news" %}</small></h1>
+  </div>
+  {% regroup news by date as news_list %}
+  {% for item in news_list %}
+    <div class="course-news">
+      <h3>{{ item.grouper|date:"l, d F Y" }}</h3>
+      {% for announcement in item.list %}
+        <div class="course-announcement row">
+          <div class="span2 news-icon"><img src="{{ STATIC_URL }}school/img/{% if announcement.assignment %}quiz{% else %}home{% endif %}_48.png"/></div>
+          <div class="span9 news-text">
+            {{ announcement.text|safe }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "school/base.html" %}
+{% load i18n %}
+{% load school_extras %}
+
+{% block title %}{% trans "School" %} - {% trans "Homepage" %}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Course materials</h1>
+</div>
+<!-- Couple words about materials -->
+<p>Course materials are specified corresponding to the videos, in order by topic. For each video, you can download the slides in Powerpoint (<img width="25" height="25" src="{{ STATIC_URL }}school/img/pptx-icon.png"/>) or in PDF (<img width="25" height="25" src="{{ STATIC_URL }}school/img/pdf-icon.png"/>), and we also provide any files used in SQL or XML demonstrations (<img width="25" height="25" src="{{ STATIC_URL }}school/img/file-icon.png"/>).</p>
+{% for category in categories %}
+<h2>{{ category.name }}</h3>
+<table class="lecture-materials">
+  <tbody>
+    {% for lecture in category.lecture_set.all %}
+    <tr>
+      <td class="left-col">
+        <h3>{{ lecture.name }}</h3>
+        <div class="materials list">
+          <ul><!-- Provide required sections -->
+            {% for book in lecture.recommended_literature|lines %}
+              <li>{{ book }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </td>
+      <td class="right-col">
+        <div class="materials icons pull-right">
+          {% for material in lecture.material_set.all %}
+            <a href="{{ material.url }}" class="file">
+              <img alt="{{ material.name }}" title="{{ material.name }}" src="{{ STATIC_URL }}school/img/{{ material.url|material }}-icon.png"/>
+            </a>
+          {% endfor %}
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endfor %}
+{% endblock %}

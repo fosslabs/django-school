@@ -1,0 +1,103 @@
+{% extends "school/base.html" %}
+{% load i18n school_extras %}
+
+{% block title %}{% trans "School" %} - {% trans "Homepage" %}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="assignment">
+  <h2>Assignment name</h2>
+  <p>
+    You achieved a score of {{ total|floatformat:2 }} out of {{ assignment.max_points|floatformat:2 }}
+  </p>
+  <div class="info">
+    {{ assignment.description }}
+  </div>
+  <form>
+    <fieldset>
+      {% for question in assignment.question_set.all %}
+        <div class="question">
+          <h3>Question {{ forloop.counter }}</h3>
+          <pre>{{ question.text }}</pre>
+          <div class="clearfix">
+            {% if question.variants|lines|length > 1 %}
+            <ul class="inputs-list">
+              {% if question.answer|split:","|length > 1 %}
+                {% for variant in question.variants|lines %}
+                  <li class="disabled">
+                    <label>
+                      <input type="checkbox" {% if forloop.counter in answers|get_checkbox_item:forloop.parentloop.counter %}checked {% endif %}name="q{{ forloop.parentloop.counter }}" value="{{ forloop.counter }}" disabled/>
+                      <span>{{ variant }}</span>
+                    </label>
+                  </li>
+                {% endfor %}
+              {% else %}
+                {% for variant in question.variants|lines %}
+                  <li class="disabled">
+                    <label>
+                      <input type="radio" {% ifequal answers|get_radio_item:forloop.parentloop.counter forloop.counter %}checked {% endifequal %}name="q{{ forloop.parentloop.counter }}" value="{{ forloop.counter }}" disabled />
+                      <span>{{ variant }}</span>
+                    </label>
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+            {% else %}
+              <input class="span7" name="q{{ forloop.counter }}" value="{{ answers|get_text_item:forloop.counter }}" disabled/>
+            {% endif %}
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Your answer</th>
+                <th>Score</th>
+                <th width="45%">Choice explanation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if question.variants|lines|length > 1 %}
+                {% if question.answer|split:","|length > 1 %}
+                  {% with answers|get_checkbox_item:forloop.counter as answer %}
+                  <tr>
+                    <td>
+                      {% for ans in answer %}
+                        {{ question.variants|lines|get_item0:ans }}<br />
+                      {% endfor %}
+                    </td>
+                    <td>
+                      {% ifequal question.answer|split:","|list_to_int answer %}
+                        {{ points|floatformat:2 }}
+                      {% else %}0{% endifequal %}
+                    </td>
+                    <td>{{ question.explanation }}</td>
+                  </tr>
+                  {% endwith %}
+                {% else %}
+                  {% with answers|get_radio_item:forloop.counter as answer %}
+                  <tr>
+                    <td>{{ question.variants|lines|get_item0:answer }}</td>
+                    <td>{% ifequal question.answer|to_int answer %}{{ points|floatformat:2 }}{% else %}0{% endifequal %}</td>
+                    <td>{{ question.explanation }}</td>
+                  </tr>
+                  {% endwith %}
+                {% endif %}
+              {% else %}
+                <tr>
+                  {% with answers|get_text_item:forloop.counter as answer %}
+                  <td>{{ answer }}</td>
+                  <td>{% ifequal question.variants answer %}{{ points|floatformat:2 }}{% else %}0{% endifequal %}</td>
+                  <td>{{ question.explanation }}</td>
+                  {% endwith %}
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      {% endfor %}
+    </fieldset>
+  </form>
+</div>
+
+{% endblock %}

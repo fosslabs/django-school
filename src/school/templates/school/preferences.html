@@ -1,0 +1,101 @@
+{% extends "school/base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "School" %} - {% trans "Homepage" %}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+        <div class="page-header">
+          <h1>{% trans "Preferences" %}</h1>
+        </div>
+       <div class="preferences">
+        {% for message in messages %}
+          <div class="alert-message {{ message.tags }}">
+            <p>{{ message }}</p>
+          </div>
+        {% endfor %}
+          <h4>Announcement Preferences</h4>
+          <form method="post" action="{% url school.views.change_pref course %}">
+            {% csrf_token %}
+            <div class="clearfix">
+              <label id="optionsCheckboxes">Staff Emails</label>
+              <div class="input">
+                <label class="span8" style="margin-left:0px;">
+                  <input type="checkbox" name="stuff_email" {% if stuff_email %}checked{% endif %}>
+                  <span>Yes, email me when there is an announcement from the course staff.</span>
+                </label>
+              </div>
+            </div>
+            <div class="actions">
+              <input type="submit" class="btn primary" value="Save preferences" />
+            </div>
+          </form>
+          <h4>Change Full Name</h4> 
+          <form method="post" action="{% url school.views.change_name course %}">
+            {% csrf_token %}
+            <div class="clearfix">
+              <label for="name">Name</label>
+              <div class="input">
+                <input class="span4" id="name" name="name" type="text" value="{{ user.first_name }}">
+              </div>
+            </div>
+            <div class="clearfix">
+              <label for="surname">Surname</label>
+              <div class="input">
+                <input class="span4" id="surname" name="surname" type="text" value="{{ user.last_name }}">
+              </div>
+            </div>
+            <div class="actions">
+              <input type="submit" class="btn primary" value="Change name" />
+            </div>
+          </form>
+          <h4>Change Password <small>The password change takes effect immediately.</small></h4>
+          <form method="post" action="{% url school.views.change_password course %}">
+            {% csrf_token %}
+            <div class="clearfix">
+              <label for="currpass">Current Password</label>
+              <div class="input">
+                <input type="password" class="span4" id="currpass" name="currpass" type="text" />
+              </div>
+            </div>
+            <div class="clearfix">
+              <label for="newpass">New Password</label>
+              <div class="input">
+                <input type="password" class="span4" id="newpass" name="newpass" type="text" />
+              </div>
+            </div>
+            <div class="clearfix">
+              <label for="retypepass">Password (again)</label>
+              <div class="input">
+                <input type="password" class="span4" id="retypepass" name="retypepass" type="text" />
+              </div>
+            </div>
+            <div class="actions">
+              <input type="submit" class="btn primary" value="Change password" />
+            </div>
+          </form>
+          <h4>Change Email Address</h4> 
+          <form method="post" action="{% url school.views.change_email course %}">
+            {% csrf_token %}
+            <div class="clearfix">
+              <label for="newemail">New Email</label>
+              <div class="input">
+                <input class="span4" id="newemail" name="newemail" type="text" />
+              </div>
+            </div>
+            <div class="clearfix">
+              <label for="retypeemail">Email (again)</label>
+              <div class="input">
+                <input class="span4" id="retypeemail" name="retypeemail" type="text" />
+              </div>
+            </div>
+            <div class="actions">
+              <input type="submit" class="btn primary" value="Change email address" />
+            </div>
+          </form>
+       </div>
+        
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "school/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "School" %} - {% trans "Homepage" %}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h2>{{ assignment.name }}</h2>
+<div class="row" style="margin: 20px;">
+<div class="span4" style="font-weight:bold; text-align: right;">
+  Due<br />
+  Attempts made<br />
+</div>
+<div class="span6">
+  {{ assignment.due|date:"D, M j G:i T" }}<br />
+  {{ attempts_count }}<br />
+</div>
+</div>
+<p style="margin: 20px;">The assignment will begin immediately after you click on Start button below. Good luck!</p>
+<form method="post" action="">
+  {% csrf_token %}
+  <input type="hidden" name="action" value="start" />
+  <input type="submit" class="btn" style="margin-left: 20px;" value="Click here to start" />
+</form>
+{% endblock %}

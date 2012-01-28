@@ -1,0 +1,104 @@
+{% extends "school/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "School" %} - {% trans "Homepage" %}{% endblock %}
+
+{% block header %}
+<script type="text/javascript" src="http://twitter.github.com/bootstrap/1.3.0/bootstrap-modal.js"></script>
+    <script>
+ $(document).ready(function(){
+    $('.progress-header').bind('click',function() {
+      $(this).next('ul').slideToggle('slow');
+    });
+    $('.subsection-title').bind('click',function() {
+      $(this).next('ul').slideToggle('slow');
+    });
+ });
+    </script>
+{% endblock %}
+
+{% block content %}
+        <div class="page-header">
+          <h1>Course Progress</h1>
+        </div>
+<div class="progress-section completed">
+  <div class="progress-header completed">
+    <h2><img src="{{ STATIC_URL }}school/img/progress_done_32.png" />Completed</h2>
+  </div>
+  <ul style="display:none;">
+    {% for object in completed_list %}
+      <li>
+        {% if object.max_points %}
+          <img class="icon24" src="{{ STATIC_URL }}school/img/quiz_24.png"/>
+          <a href="#">{{ object.name }}</a><span class="pull-right">Due {{ object.due|date:"D, M j G:i T" }}</span>
+        {% else %}
+        <div class="subsection-title">
+          <img class="icon24" src="{{ STATIC_URL }}school/img/video_24.png" />{{ object.name }}
+        </div>
+        <ul>
+          {% for lecture in object.lecture_set.all %}
+            <li {% if user.id in lecture.get_users %}class="viewed"{% endif %}>
+              <a href="#" data-controls-modal="video-modal" data-backdrop="static">{{ lecture.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="progress-section in-progress">
+  <div class="progress-header in-progress">
+    <h2><img src="{{ STATIC_URL }}school/img/progress_current_32.png" />In Progress</h2>
+  </div>
+  <ul>
+    {% for object in in_progress_list %}
+      <li>
+        {% if object.max_points %}
+          <img class="icon24" src="{{ STATIC_URL }}school/img/quiz_24.png"/>
+          <a href="#">{{ object.name }}</a><span class="pull-right">Due {{ object.due|date:"D, M j G:i T" }}</span>
+        {% else %}
+        <div class="subsection-title">
+          <img class="icon24" src="{{ STATIC_URL }}school/img/video_24.png" />{{ object.name }}
+        </div>
+        <ul>
+          {% for lecture in object.lecture_set.all %}
+            <li class="video-lecture{% if user.id in lecture.get_users %} viewed{% endif %}" video-id="{{lecture.youtube_id}}">{{ lecture.name }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="progress-section next-up">
+  <div class="progress-header next-up">
+    <h2><img src="{{ STATIC_URL }}school/img/progress_next_32.png" />Next Up</h2>
+  </div>
+  <ul style="display:none;">
+    {% for object in next_up_list %}
+      <li>
+        {% if object.max_points %}
+          <img class="icon24" src="{{ STATIC_URL }}school/img/quiz_24.png"/>
+          <a href="#">{{ object.name }}</a><span class="pull-right">Due {{ object.due|date:"D, M j G:i T" }}</span>
+        {% else %}
+        <div class="subsection-title">
+          <img class="icon24" src="{{ STATIC_URL }}school/img/video_24.png" />{{ object.name }}
+        </div>
+        <ul>
+          {% for lecture in object.lecture_set.all %}
+            <li {% if user.id in lecture.get_users %}class="viewed"{% endif %}>
+              <a href="#" data-controls-modal="video-modal" data-backdrop="static">{{ lecture.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+<!-- Video player includes here -->
+{% include "school/video_modal.html" %}
+{% endblock %}

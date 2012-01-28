@@ -1,0 +1,37 @@
+
+    <script>
+ $(document).ready(function(){
+    $('.video-lecture').bind('click',function() {
+      var videoId = $(this).attr('video-id');
+      var videoUrl = "http://www.youtube.com/v/"+videoId+"?version=3&autohide=1&showinfo=0";
+      $('#movie').attr('value', videoUrl);
+      $('#embed').attr('src', videoUrl);
+      $('#video-modal').modal('show');
+    });
+    $('#video-modal').modal({
+      keyboard: true,
+      backdrop: true
+    });
+ });
+    </script>
+    <div id="video-modal" class="modal hide fade">
+        <div class="modal-header">
+          <a href="#" class="close">×</a>
+          <h3>Modal Heading</h3>
+        </div>
+        <div class="modal-body">
+          <object width="560" height="470">
+            <param id="movie" name="movie"
+              value="http://www.youtube.com/v/u1zgFlCw8Aw?version=3&autohide=1&showinfo=0"></param>
+            <param name="allowScriptAccess" value="always"></param>
+            <embed id="embed" src="http://www.youtube.com/v/u1zgFlCw8Aw?version=3&autohide=1&showinfo=0"
+              type="application/x-shockwave-flash"
+              allowscriptaccess="always"
+              width="560" height="470"></embed>
+          </object>
+        </div>
+        <div class="modal-footer">
+            <a href="#">Previous</a>
+            <a href="#" class="pull-right">Next</a>
+        </div>
+    </div>

@@ -1,0 +1,59 @@
+{% extends "school/base.html" %}
+{% load i18n school_extras %}
+
+{% block title %}{% trans "School" %} - {% trans "Homepage" %}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="assignment">
+  <h2>Assignment name</h2>
+  <div class="info">
+    {{ assignment.description }}
+  </div>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="end" />
+    <fieldset>
+      {% for question in assignment.question_set.all %}
+        <div class="question">
+          <h3>Question {{ forloop.counter }}</h3>
+          <pre>{{ question.text }}</pre>
+          <div class="clearfix">
+            {% if question.variants|lines|length > 1 %}
+            <ul class="inputs-list">
+              {% if question.answer|split:","|length > 1 %}
+                {% for variant in question.variants|lines %}
+                  <li>
+                    <label>
+                      <input type="checkbox" name="q{{ forloop.parentloop.counter }}" value="{{ forloop.counter }}" />
+                      <span>{{ variant }}</span>
+                    </label>
+                  </li>
+                {% endfor %}
+              {% else %}
+                {% for variant in question.variants|lines %}
+                  <li>
+                    <label>
+                      <input type="radio" name="q{{ forloop.parentloop.counter }}" value="{{ forloop.counter }}" />
+                      <span>{{ variant }}</span>
+                    </label>
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+            {% else %}
+              <input class="span7" name="q{{ forloop.counter }}" />
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      <div class="actions">
+        <input type="submit" class="btn primary" value="Submit for grading">
+      </div>
+    </fieldset>
+  </form>
+</div>
+{% endblock %}

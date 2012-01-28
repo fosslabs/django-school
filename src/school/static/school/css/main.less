@@ -1,0 +1,226 @@
+@import "lib/bootstrap.less";
+@background-color: #61b753;
+@box-transparency: 0.8;
+@news-box-transparency: 0.8;
+
+html,body {
+  background-image: url(../img/beige_paper.png)
+}
+
+.content {
+  padding-top: 60px;
+  padding-bottom: 20px;
+  background-color: #fff;
+}
+
+.left-menu {
+  margin-left: 30px;
+}
+
+.left-menu li{
+  width: 160px;
+}
+
+.user-menu{
+  padding-top:10px;
+}
+
+.user-menu a{
+  padding-right: 15px;
+}
+
+.faq-section{
+  padding-top: 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #bbb;
+}
+
+.news-icon, .ass-icon{
+  text-align: center;
+}
+
+.course-news{
+  margin-top:20px;
+}
+
+.course-announcement{
+  margin-top:20px;
+}
+
+.assignments{
+  margin-top:20px;
+}
+
+.ass-item small{
+  font-size: smaller;
+}
+
+.assignments div a h3{
+  color: blue;
+}
+
+.ass-attempts th,td{
+  text-align: center;
+}
+
+.ass-attempts{
+  margin-top: 10px;
+}
+
+div.expand-control{
+  text-decoration: none;
+  padding-top: 0.5em;
+  padding-left: 10px;
+  border-top: 2px solid #CCC;
+  float: left;
+  width: 30px;
+  height: 40px;
+}
+
+div.expand-control {
+  background-image: url(../img/small_blue_chevron_right.png);
+  background-repeat: no-repeat;
+  background-position: 15px 20px;
+}
+
+div.expand-control.expanded{
+  background-image: url(../img/small_blue_chevron_down.png);
+}
+
+
+.section-title{
+  text-decoration: none;
+  padding: 0.5em 10px;
+  border-top: 2px solid #CCC;
+  margin-left: 30px;
+}
+
+.lecture-list h3{
+  margin: 0px;
+  clear: both;
+  cursor: pointer;
+  display: block;
+  color: black;
+  background: #EEE;
+}
+
+.lecture-list ul {
+  list-style: none;
+}
+
+li.viewed {
+  list-style-image: url(../img/small_tick.png);
+}
+
+.video-lecture {
+  clear: both;
+  margin-left: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 2px solid #FFF;
+  cursor:pointer;
+}
+
+.video-modal{
+  
+}
+.progress-section{
+}
+
+.progress-header {
+  text-decoration: none;
+  padding: 0.5em 10px;
+  border-top: 2px solid #CCC;
+  margin-left: 30px;
+  clear: both;
+  cursor: pointer;
+  display: block;
+  color: black;
+  background: #EEE;
+}
+.progress-header img{
+  vertical-align: baseline;
+  float: left;
+  padding-right: 10px;
+}
+
+.progress-section li{
+  clear: both;
+  margin-left: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+
+.progress-section ul {
+  list-style: none;
+}
+
+.subsection-title{
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.icon24{
+  vertical-align: baseline;
+  float: left;
+  padding-right: 10px;
+  padding-bottom:5px;
+}
+
+.lecture-materials td.left-col{
+  border-right: 0px;
+}
+
+.lecture-materials td.right-col{
+  border-left: 0px;
+  min-width: 176px;
+}
+
+a.file {
+  text-decoration: none;
+}
+
+.assignment .info{
+  border-bottom: 1px solid #000;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.question{
+  border-bottom: 1px dashed #CCC;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.attempt-feedback{
+  border: 2px solid #CCC;
+  margin: 10px;
+  padding-top: 10px; 
+  padding-bottom: 10px; 
+}
+
+.video-lecture:hover{
+  border: 2px solid #CCC;
+}
+
+#video-modal{
+  width: 590px;
+}
+
+#video-modal .modal-body {
+}
+
+#video-modal .modal-footer {
+}
+
+#video-modal .modal-header{
+  border: none;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+#video-modal.fade.in {
+top: 40%;
+}

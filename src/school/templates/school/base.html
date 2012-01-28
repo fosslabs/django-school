@@ -1,0 +1,61 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <script type="text/javascript" src="{{ STATIC_URL }}school/js/jquery-1.5.1.min.js"></script>
+    <link rel="stylesheet/less" href="{{ STATIC_URL }}school/css/main.less" type="text/css" />
+    <script type="text/javascript" src="{{ STATIC_URL }}school/js/less-1.1.3.min.js"></script>
+    {% block header %}{% endblock %}
+</head>
+<body>
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="{% url school.views.home course %}">{{ course_name }}</a>
+          {% if user.is_authenticated %}
+          <div  class="pull-right user-menu">
+            <a href="{% url school.views.preferences course %}">{{ user }}</a>
+            <a href="/accounts/logout/">Logout</a>
+          </div>
+          {% else %}
+          <form method="post" action="/accounts/login/?next=/school" class="pull-right">
+            {% csrf_token %}
+            <input class="input-small" type="text" name="username" placeholder="Username">
+            <input class="input-small" type="password" name="password" placeholder="Password">
+            <button class="btn" type="submit">Sign in</button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  <div class="container">
+
+      <div class="content">
+        <div class="row">
+          <div class="span4">
+            <ul class="left-menu pills">
+              <li {% if home %}class="active"{% endif %}><a href="{% url school.views.home course %}">{% trans "Home" %}</a></li>
+              <li {% if assignments %}class="active"{% endif %}><a href="{% url school.views.assignments course %}">{% trans "Assignments" %}</a></li>
+              <li {% if video_list%}class="active"{% endif %}><a href="{% url school.views.video_list course %}">{% trans "Video Lectures" %}</a></li>
+              <li {% if progress %}class="active"{% endif %}><a href="{% url school.views.progress course %}">{% trans "Course Progress" %}</a></li>
+              <li {% if schedule %}class="active"{% endif %}><a href="{% url school.views.schedule course %}">{% trans "Course Schedule" %}</a></li>
+              <li {% if materials %}class="active"{% endif %}><a href="{% url school.views.materials course %}">{% trans "Course Materials" %}</a></li>
+              <li {% if faq %}class="active"{% endif %}><a href="{% url school.views.faq course %}">{% trans "FAQ" %}</a></li>
+              <li {% if qna %}class="active"{% endif %}><a href="{% url school.views.qna course %}">{% trans "QA Forum" %}</a></li>
+            </ul>
+          </div>
+          <div class="span11">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>&copy; Giylem 2011</p>
+      </footer>
+
+    </div> <!-- /container -->
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends "school/base.html" %}
+{% load i18n school_extras %}
+
+{% block title %}{% trans "School" %} - {% trans "Homepage" %}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Assignments</h1>
+</div>
+<div class="assignments-info">
+<!--following text should contain info or recomendations about assignments-->
+The quizzes and exercises may be attempted as many times as you like. We will use the highest score you achieve, so we certainly recommend you retake each one until you receive full credit. (In fact, for the quizzes you'll get a different variant of each problem on every attempt, so you may want to continue using them for practice even after you've achieved full credit.) After the deadline you may continue to take the quizzes and perform the exercises -- either for practice or because you didn't complete them on time. However, because we may offer partial solutions for some problems after the deadline (for educational purposes), scores on after-deadline attempts are penalized 50%. 
+</div>
+{% for assignment in assignment_list %}
+  <div class="row assignments">
+    <div class="span2 ass-icon"><img src="{{ STATIC_URL }}school/img/quiz_48.png"/></div>
+    <div class="span9 ass-item">
+      <a href="{{ assignment.get_absolute_url }}">
+        <h3>{{ assignment.name }}
+          <span class="pull-right">[Attempt]</span>
+        </h3>
+      </a>
+      {% with i=forloop.counter0 %}
+        {% if attempts|get_item:i %}
+          {% with last_attempt=attempts|get_item:i|get_last_item %}
+            <div class="ass-status">Last attempted at {{ last_attempt.date|date:"D, M j G:i T" }}</div>
+          {% endwith %}
+          <table class="ass-attempts">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Saved/submitted at</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for attempt in attempts|get_item:i %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>Submitted {{ attempt.date|date:"D, M j G:i T" }}</td>
+                  <td><a href="#">{{ attempt.points|floatformat:2 }}/{{ assignment.max_points }}</a></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="ass-status">Not attempted</div>
+        {% endif %}
+      {% endwith %}
+      <small>Due: {{ assignment.due|date:"D, M j G:i T" }}</small>
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}
